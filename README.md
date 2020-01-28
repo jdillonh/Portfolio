@@ -1,2 +1,2 @@
 # Portfolio
-Hi please check it out [here](jdillonh.github.io/Portfolio/port.html)!
+Hi please check it out [here](http://jdillonh.github.io/Portfolio/port.html)!
