@@ -45,7 +45,7 @@ function draw () {
     invrotspd = Math.abs(lerp(100, 20, d))
     for( let i = 0; i < parts.length; i++ ) {
 	let r = 100
-	let a = 6.28*i/parts.length + frameCount/invrotspd
+	let a = 2*3.14*i/parts.length + frameCount/invrotspd
 	let desx = r * cos(a)
 	let desy = r * sin(a)
 
