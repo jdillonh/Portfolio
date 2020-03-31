@@ -8,20 +8,22 @@ function setup () {
     fill('grey');
     stroke('white');
     strokeWeight(10);
+    pcent = 3;
+    draw();
 }
 
 
 function draw () {
-    let newPcent = lerp(lastPcent, pcent, 0.1);
+    let newPcent = lerp(lastPcent, pcent, 0.05);
     lastPcent = newPcent;
     if ( pcent == undefined ) pcent = 0;
-    if (Math.abs( newPcent - pcent ) < 2 ) {
-	return console.log("not drawing")
+    if ( Math.abs( newPcent - pcent ) < 2 ) {
+	return;
     }
     background("#EEE")
     let numThingys = 5 
-    let stepx = width/(numThingys+2)
-    let stepy = height/(numThingys+2)
+    let stepx = width/(numThingys+1)
+    let stepy = height/(numThingys+1)
     let centerX = width/2
     let centerY = height/2
     for( let x = 0; x < numThingys; x++) {
@@ -36,7 +38,6 @@ function draw () {
 	    circle(ax, ay, r);
 	}
     }
-
 }
 
 
@@ -46,7 +47,7 @@ function windowResized() {
 
 window.onscroll = (e) => {
     pcent = getScrollPercent();
-    draw(pcent);
+    draw();
 }
 
 function getScrollPercent() {
