@@ -1,61 +1,65 @@
-
-class Part {
-    constructor (i, r) {
-	this.x = Math.random()*width
-	this.y = Math.random()*height
-	this.r = r
-	this.c = Math.random()*255
-	this.ind = i
-    }
-
-    update (x, y) {
-	let desx = x 
-	let desy = y
-	let dx = -this.x + desx
-	let dy = -this.y + desy
-	let invspd = 10
-	this.x += dx/invspd
-	this.y += dy/invspd
-    }
-
-    draw () {
-	fill(this.c)
-	circle(this.x, this.y, this.r)
-    }
-}
-
-var parts = []
-var invrotspd = 20
+var lastPcent = 0;
+var pcent = 0;
 function setup () {
-    noStroke()
     background("#FFF7E2")
     let c = createCanvas()
     c.parent("canvas-container")
     resizeCanvas(windowWidth, windowHeight)
-    for( let i = 0; i < 10; i++ ) {
-	parts.push(new Part(i, 50));
-    }
+    fill('grey');
+    stroke('white');
+    strokeWeight(10);
 }
 
 
 function draw () {
-    let d = Math.abs(dist(mouseX, mouseY, parts[0].x, parts[0].y))
-    d = max(0, d-100)
-    d = d / 100
-    invrotspd = Math.abs(lerp(100, 20, d))
-    for( let i = 0; i < parts.length; i++ ) {
-	let r = 100
-	let a = 2*3.14*i/parts.length + frameCount/invrotspd
-	let desx = r * cos(a)
-	let desy = r * sin(a)
+    let newPcent = lerp(lastPcent, pcent, 0.1);
+    lastPcent = newPcent;
+    if ( pcent == undefined ) pcent = 0;
+    if (Math.abs( newPcent - pcent ) < 2 ) {
+	return console.log("not drawing")
+    }
+    background("#EEE")
+    let numThingys = 5 
+    let stepx = width/(numThingys+2)
+    let stepy = height/(numThingys+2)
+    let centerX = width/2
+    let centerY = height/2
+    for( let x = 0; x < numThingys; x++) {
+	for( let y = 0; y < numThingys; y++) {
+	    let ax = stepx*(x+1)
+	    let ay = stepy*(y+1)
+	    let d = Math.sqrt(Math.pow(ax - centerX, 2) + Math.pow(ay - centerY, 2))
+	    let angle = Math.atan2(centerY - ay, centerX - ax) ;
+	    let r =  Math.sin(d/100 + angle+newPcent/20) * 60;
+	    r = Math.max( r, 10);
+	    r = Math.min(r, 55);
+	    circle(ax, ay, r);
+	}
+    }
 
-	parts[i].update(mouseX + desx, mouseY + desy)
-    }
-    for( let i = 0; i < parts.length; i++ ) {
-	parts[i].draw()
-    }
 }
 
+
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+    resizeCanvas(windowWidth, windowHeight);
+}
+
+window.onscroll = (e) => {
+    pcent = getScrollPercent();
+    draw(pcent);
+}
+
+function getScrollPercent() {
+    /*
+      https://stackoverflow.com/questions/2387136/cross-browser-method-to-determine-vertical-scroll-percentage-in-javascript
+    */
+    var h = document.documentElement, 
+        b = document.body,
+        st = 'scrollTop',
+        sh = 'scrollHeight';
+    return (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
+}
+
+function lerp(v0, v1, t) {
+    return v0*(1-t)+v1*t
 }

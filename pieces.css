@@ -40,6 +40,8 @@ a:hover {
 
 #items-wrapper {
     z-index: 3;
+    overflow-y: scroll;
+    overflow: auto;
 }
 
 .item:hover {
@@ -52,7 +54,6 @@ a:hover {
     position: relative;
     width: 100%;
     background-color: #21212130;
-    overflow: auto;
 }
 .media {
     width: 30%;
