@@ -1,31 +1,38 @@
 let uniformsShader;
+let smoothX = 0.5;
+let smoothY = 0.5;
 
 function preload(){
-    // load the shader
     uniformsShader = loadShader('assets/vert.glsl', 'assets/frag.glsl');
 }
 
 function setup() {
-    // shaders require WEBGL mode to work
     let canv = createCanvas(windowWidth, windowHeight, WEBGL);
     canv.parent = "canvas-container";
     noStroke();
+    smoothX = mouseX/width;
+    smoothY = mouseY/height;
+
 }
 
 function draw() {  
-    // shader() sets the active shader with our shader
     shader(uniformsShader);
+    let v = 0.05
+    smoothX = lerp(smoothX, mouseX/width, v);
+    smoothY = lerp(smoothY, mouseY/height, v);
 
-    // lets just send frameCount to the shader as a way to control animation over time
     uniformsShader.setUniform('time', frameCount);
     uniformsShader.setUniform('ar', width/height);
-    uniformsShader.setUniform('mouseX', mouseX/width);
-    uniformsShader.setUniform('mouseY', mouseY/height);
+    uniformsShader.setUniform('mouseX', smoothX);
+    uniformsShader.setUniform('mouseY', smoothY);
 
-    // rect gives us some geometry on the screen
     rect(0,0,width, height);
 }
 
 function windowResized(){
     resizeCanvas(windowWidth, windowHeight);
+}
+
+function lerp(v0, v1, t) {
+    return v0*(1-t)+v1*t
 }

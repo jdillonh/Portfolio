@@ -51,7 +51,7 @@ float pNoise(vec2 p, int res){
 }
 
 
-float width = 0.010;
+float width = 0.10;
 float sqrness= 50.0;
 float speed = 5.0;
 
