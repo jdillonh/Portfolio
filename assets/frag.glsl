@@ -12,6 +12,7 @@ uniform float time;
 uniform float ar;
 uniform float mouseX;
 uniform float mouseY;
+uniform float dY;
 
 float rand(vec2 c){
 	return fract(sin(dot(c.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -57,7 +58,7 @@ float speed = 5.0;
 
 vec3 col1 = vec3(1.0, 247.0/255.0, 209.0/255.0);
 vec3 col2 = vec3(235.0/255.0, 77.0/255.0, 128.0/255.0);
-vec3 col3 = vec3(153.0/255.0, 207.0/255.0, 1.0);
+vec3 col3 = vec3(153.0/255.0, 207.0/255.0, 1.0); // blue
 
 
 void main() {
@@ -74,7 +75,7 @@ void main() {
     outp = mod(uv.x, width) < width/2.0 ? col1 : col2;
   }
   else {
-    outp = mod(uv.y, width) < width/2.0 ? col3 : col1;
+    outp = mod(uv.y + _mouseY/5.0, width) < width/2.0 ? col3 : col1;
   }
 
   vec4 color = vec4(outp.rgb, 1.0);
