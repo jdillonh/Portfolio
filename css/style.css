@@ -27,6 +27,7 @@ div {
     background-color: rgb(255, 246, 211);
     text-align: left;
     padding: 20px;
+    width: 250px;
 }
 
 #name-card {
